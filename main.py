@@ -95,3 +95,87 @@ for d in date:
 splitedDate = d.split('-')
 temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
 x_dates.append(temp)
+
+
+# Total No of cases in each provence over time
+# iterate through each provence
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+        # add province name as key and empty list as value
+        eachProviceCases[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            eachProviceCases[prov].append(0)
+
+        for index,d in enumerate(date): # iterate on sorted date list
+            for idx,da in enumerate(data["date"]): # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    eachProviceCases[prov][index] = int(data['numtotal'][idx]) # add data against province for given date
+                    break
+
+# plot graph Total No of cases in each provence over time
+plotChartFunction(x_dates,eachProviceCases,'Total No of cases in each provence over time')
+
+
+
+
+#Total No of cases tested each provence over time
+eachProviceTestedCases = {}
+
+# iterate through each provence
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+
+        # add province name as key and empty list as value
+        eachProviceTestedCases[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            eachProviceTestedCases[prov].append(0)
+
+        for index,d in enumerate(date):  # iterate on sorted date list
+            for idx,da in enumerate(data["date"]):  # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    if data['numtested'][idx] != '':
+                        eachProviceTestedCases[prov][index] = int(data['numtested'][idx])  # add data against province for given date
+                    else:
+                        eachProviceTestedCases[prov][index] = 0
+                    break
+# plot graph Total No of cases tested each provence over time
+plotChartFunction(x_dates,eachProviceTestedCases,'Total No of cases tested each provence over time')
+
+
+
+
+# No of new cases per day each provence over time
+newCasesPerDay = {}
+
+# iterate through each provence
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+
+        # add province name as key and empty list as value
+        newCasesPerDay[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            newCasesPerDay[prov].append(0)
+
+        for index,d in enumerate(date): # iterate on sorted date list
+            for idx,da in enumerate(data["date"]):  # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    if data['numtested'][idx] != '':
+                        newCasesPerDay[prov][index] = int(data['numtoday'][idx]) # add data against province for given date
+                    else:
+                        newCasesPerDay[prov][index] = 0
+                    break
+					
+# plot graph Total No of new cases per day each provence over time
+plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
