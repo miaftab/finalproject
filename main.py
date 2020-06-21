@@ -6,6 +6,8 @@ import requests
 import csv
 import os
 
+# Function responsible for plotting the data over days
+def plotChartFunction(x_dates,setData,title):
 # plot chart on SetData
 x_dates = date2num(x_dates)
 ax = plt.subplot(111)
