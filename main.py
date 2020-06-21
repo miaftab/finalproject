@@ -8,49 +8,50 @@ import os
 
 # Function responsible for plotting the data over days
 def plotChartFunction(x_dates,setData,title):
-# plot chart on SetData
-x_dates = date2num(x_dates)
-ax = plt.subplot(111)
-legends = []
 
-# Colors Array
-colors = ['orange',
-        'green',
-        'red',
-        'blue',
-        'purple',
-        'yellow',
-        'grey',
-        'magenta',
-        'black',
-        'cyan',
-        'brown',
-        'indigo',
-        'olive',
-        'navy',
-        'orchid'
-        ]
+    # plot chart on SetData
+    x_dates = date2num(x_dates)
+    ax = plt.subplot(111)
+    legends = []
 
-count = 0
+    # Colors Array
+    colors = ['orange',
+              'green',
+              'red',
+              'blue',
+              'purple',
+              'yellow',
+              'grey',
+              'magenta',
+              'black',
+              'cyan',
+              'brown',
+              'indigo',
+              'olive',
+              'navy',
+              'orchid'
+              ]
 
-# DataSet have key as each provence name and it's data list as value
-for key,value in setData.items():
-ax.plot(x_dates, value, color=colors[count])
-a=mpatches.Patch(color=colors[count],linestyle='--',label=key)
-legends.append(a)
-count = count + 1
-ax.xaxis_date()
-plt.legend(handles=legends)
-plt.title(title,size=10,color='Green')
-plt.show()
+    count = 0
+
+    # DataSet have key as each provence name and it's data list as value
+    for key,value in setData.items():
+        ax.plot(x_dates, value, color=colors[count])
+        a=mpatches.Patch(color=colors[count],linestyle='--',label=key)
+        legends.append(a)
+        count = count + 1
+    ax.xaxis_date()
+    plt.legend(handles=legends)
+    plt.title(title,size=10,color='Green')
+    plt.show()
 
 
 
 # Remove old CSV with name covid19 if exits
 try:
-os.remove("covid19.csv")
+    os.remove("covid19.csv")
 except:
-print("File not exist")
+    print("File not exist")
 
 
 
@@ -64,15 +65,15 @@ csv_file.close()
 
 # open the file
 with open('covid19.csv', 'r') as infile:
-# read the file as a dictionary for each row ({header : value})
-reader = csv.DictReader(infile)
-data = {}
-for row in reader:
-for header, value in row.items():
-    try:
-        data[header].append(value)
-    except KeyError:
-        data[header] = [value]
+    # read the file as a dictionary for each row ({header : value})
+    reader = csv.DictReader(infile)
+    data = {}
+    for row in reader:
+        for header, value in row.items():
+            try:
+                data[header].append(value)
+            except KeyError:
+                data[header] = [value]
 
 
 
@@ -92,9 +93,11 @@ eachProviceCases = {}
 
 # append Unique dates in x_dates
 for d in date:
-splitedDate = d.split('-')
-temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
-x_dates.append(temp)
+    splitedDate = d.split('-')
+    temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
+    x_dates.append(temp)
+
+
 
 
 # Total No of cases in each provence over time
@@ -177,8 +180,8 @@ for prov in provences:
                         newCasesPerDay[prov][index] = 0
                     break
 
-# plot graph Total No of new cases per day each provence over time
 plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
+# plot graph Total No of new cases per day each provence over time
 
 try:
     os.remove("output.txt")
