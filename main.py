@@ -176,6 +176,43 @@ for prov in provences:
                     else:
                         newCasesPerDay[prov][index] = 0
                     break
-					
+
 # plot graph Total No of new cases per day each provence over time
 plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
+
+try:
+    os.remove("output.txt")
+except:
+    print("File not exist")
+
+os.system("bash doubling.sh  Canada 'number of cases' 01-04-2020")
+os.system("bash doubling.sh  Alberta 'number of cases' 01-04-2020")
+os.system("bash doubling.sh  Ontario 'number of cases' 01-04-2020")
+
+f = open("output.txt", "r")
+prvinceName = []
+NoOfDays=[]
+legends=[]
+colors = ['r','g','b']
+index=0
+for x in f:
+    temp = x.split(" ")
+    a=mpatches.Patch(color=colors[index],linestyle='--',label=temp[0]+'('+temp[2]+') --> '+'('+temp[4]+')')
+    legends.append(a)
+    prvinceName.append(temp[0]+'('+temp[1]+')')
+    NoOfDays.append(int(temp[5].replace('\n', '')))
+    index=index+1
+print(prvinceName)
+print(NoOfDays)
+
+barlist=plt.bar(prvinceName,NoOfDays)
+barlist[0].set_color('r')
+barlist[1].set_color('g')
+barlist[2].set_color('b')
+
+plt.legend(handles=legends)
+plt.title('Doubling Rate From Given Date')
+plt.xlabel('Provinces From Date')
+plt.ylabel('No Of Days')
+
+plt.show()
