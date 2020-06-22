@@ -26,11 +26,17 @@ Shell Script to compute doubling rate
 <h6>File main.py (Python3)</h6>  
 
 <h6>Execution</h6>
-         
+  
       1. Donload COVID19 Data from https://health-infobase.canada.ca/src/data/covidLive/covid19.csv 
-      2. Read CSV covid19.csv
-      3. Create plot Number Of Total Cases for each province over time. 
+      1. Read CSV covid19.csv
+      2. Create plot Number Of Total Cases for each province over time. 
       output: 
   ![alt text](https://i.ibb.co/KKBX89P/Snip20200621-1-1.png) 
-  
+         
+      3. Create a second plot showing the number of individuals tested in each province over time.
         
+  ![alt text](https://i.ibb.co/8cNkfqf/Snip20200621-2.png)      
+   
+      4. Create a third plot demonstrating the number of new cases per day.
+        
+  ![alt text](https://i.ibb.co/XZr8xS6/Snip20200621-3.png) 

@@ -41,6 +41,7 @@ def plotChartFunction(x_dates,setData,title):
         legends.append(a)
         count = count + 1
     ax.xaxis_date()
+    plt.xticks(rotation=70)
     plt.legend(handles=legends)
     plt.title(title,size=10,color='Green')
     plt.show()
