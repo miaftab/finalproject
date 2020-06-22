@@ -86,48 +86,23 @@ def plotChartFunction(x_dates,setData,title):
 
 ---
 
-### DataSet have key as each provence name and it's data list as value
-
-```javascript
-
-for key,value in setData.items():
-        ax.plot(x_dates, value, color=colors[count])
-        a=mpatches.Patch(color=colors[count],linestyle='--',label=key)
-        legends.append(a)
-        count = count + 1
-    ax.xaxis_date()
-    plt.xticks(rotation=70)
-    plt.legend(handles=legends)
-    plt.title(title,size=10,color='Green')
-    plt.show()
-
-```
 ###  Question No 1
- Remove old CSV with name covid19 if exits
 
 ```javascript
- try:
+try:
     os.remove("covid19.csv")
 except:
     print("File not exist")
 
-```
 
----
-Download new covid19 csv from HIC website
-
-```javascript
+# Download new covid19 csv from HIC website
 req = requests.get("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
 url_content = req.content
 csv_file = open('covid19.csv', 'wb')
 csv_file.write(url_content)
 csv_file.close()
 
-```
-
-Open the file and read
-
-```javascript
+# open the file and read
 with open('covid19.csv', 'r') as infile:
     # read the file as a dictionary for each row ({header : value})
     reader = csv.DictReader(infile)
@@ -139,42 +114,28 @@ with open('covid19.csv', 'r') as infile:
             except KeyError:
                 data[header] = [value]
 
-```
 
-Extract the variables you want unique
 
-```javascript
+# extract the variables you want unique
 provences = list(set(data['prname']))
 totalCases = data['numtotal']
-```
----
-Select only unique dates sorted
 
-```javascript
+# Select only unique dates sorted
 date = list(set(data['date']))
 date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
-```
 
-Extracting dates and converting it to date time object
-```javascript
 
+# Extracting dates and converting it to date time object
 x_dates = []
 eachProviceCases = {}
 
-```
-Append Unique dates in x_dates
-
-```javascript
+# append Unique dates in x_dates
 for d in date:
     splitedDate = d.split('-')
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
-
+	
 ```
----
-Result of question one
-![alt text](Q1_plot.png)
-
 ---
 ### Question No 2
 
@@ -199,27 +160,26 @@ for prov in provences:
                     eachProviceCases[prov][index] = int(data['numtotal'][idx]) # add data against province for given date
                     break
 
-```
-
 Plot graph Total No of cases in each provence over time
 
-
-```javascript
 plotChartFunction(x_dates,eachProviceCases,'Total No of cases in each provence over time')
 ```
+---
+class: center, middle, .backgroundCol
+Output of Question 2:
+![alt text](images/q1_plot.png)
 
 ---
 
 ### Question No 3
 
 Total No of cases tested each provence over time
+
 ```javascript
 eachProviceTestedCases = {}
-```
 
-iterate through each provence
+#iterate through each provence
 
-```javascript
 for prov in provences:
 
     # Exclude Canada
@@ -241,14 +201,16 @@ for prov in provences:
                         eachProviceTestedCases[prov][index] = 0
                     break
 
-```
----
- Plot graph Total No of cases tested each provence over time
+ #Plot graph Total No of cases tested each provence over time
 
-```javascript
 plotChartFunction(x_dates,eachProviceTestedCases,'Total No of cases tested each provence over time')
 
 ```
+---
+class: center, middle, .backgroundCol
+Output of Question 3:
+![alt text](images/q2_plot.png)
+---
 
 ### Question No 4
 No of new cases per day each provence over time
@@ -258,10 +220,8 @@ No of new cases per day each provence over time
 newCasesPerDay = {}
 dates = set()
 
-```
----
-iterate through each provence
-```javascript
+#iterate through each provence
+
 for prov in provences:
 
     # Exclude Canada
@@ -296,19 +256,21 @@ date = list(dates)
 date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
 x_dates = []
 
-```
----
-```javascript
 for d in date:
     splitedDate = d.split('-')
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
-```
-plot graph Total No of new cases per day each provence over time
-```javascript
+
+#plot graph Total No of new cases per day each provence over time
+
 plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
 
 ```
+---
+class: center, middle, .backgroundCol
+Output of Question 4:
+![alt text](images/q3_plot.png)
+---
 
 ### Question No 5
 
@@ -340,11 +302,8 @@ for x in f:
     index=index+1
 print(prvinceName)
 print(NoOfDays)
- ```
----
 
- ```javascript
- barlist=plt.bar(prvinceName,NoOfDays)
+barlist=plt.bar(prvinceName,NoOfDays)
 barlist[0].set_color('r')
 barlist[1].set_color('g')
 barlist[2].set_color('b')
@@ -356,6 +315,10 @@ plt.ylabel('No Of Days')
 
 plt.show()
 ```
+---
+class: center, middle, .backgroundCol
+Output of Question 5:
+![alt text](images/q4_plot.png)
 ---
     </textarea>
 
