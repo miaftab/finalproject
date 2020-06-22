@@ -39,11 +39,11 @@ do
  provinceindex=$((provinceindex+1))
 done
 
-var=$(sort -k3 -t, covid19.csv | head -n 10)
-var=$(sort -n -k 4.9 -k 4.5 -k 4 covid19.csv | head -n 10)
-
+var=$(sort -n -k 4.9 -k 4.5 -k 4 covid19.csv)
 
 for t in $var
 do
- echo $t
+ if [[ $t == *"Alberta"* ]]; then
+  echo $t
+ fi
 done
