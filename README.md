@@ -39,4 +39,8 @@ Shell Script to compute doubling rate
    
       4. Create a third plot demonstrating the number of new cases per day.
         
-  ![alt text](https://i.ibb.co/XZr8xS6/Snip20200621-3.png) 
+  ![alt text](https://i.ibb.co/XZr8xS6/Snip20200621-3.png)       
+  
+      5|6. calculates the doubling rate Plot
+        
+  ![alt text](https://i.ibb.co/SQpLfQ5/Snip20200621-4.png) 
