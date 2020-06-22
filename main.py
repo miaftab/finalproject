@@ -118,8 +118,8 @@ for prov in provences:
 
 # plot graph Total No of cases in each provence over time
 plotChartFunction(x_dates,eachProviceCases,'Total No of cases in each provence over time')
-
-
+print(x_dates)
+print(eachProviceCases)
 
 
 # Question No 3
