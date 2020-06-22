@@ -62,7 +62,7 @@ csv_file = open('covid19.csv', 'wb')
 csv_file.write(url_content)
 csv_file.close()
 
-# open the file
+# open the file and read
 with open('covid19.csv', 'r') as infile:
     # read the file as a dictionary for each row ({header : value})
     reader = csv.DictReader(infile)
@@ -76,14 +76,13 @@ with open('covid19.csv', 'r') as infile:
 
 
 
-# extract the variables you want
+# extract the variables you want unique
 provences = list(set(data['prname']))
 totalCases = data['numtotal']
 
 # Select only unique dates sorted
 date = list(set(data['date']))
 date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
-
 
 
 # Extracting dates and converting it to date time object
@@ -95,8 +94,6 @@ for d in date:
     splitedDate = d.split('-')
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
-
-
 
 
 # Question No 2
