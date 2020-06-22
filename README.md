@@ -1,4 +1,4 @@
-# finalproject
+# Final Project
 <h6>Course CMSC-6950</h6>
 <h6>Title Computer base tools and applications</h6>
 
