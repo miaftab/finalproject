@@ -14,9 +14,9 @@
             font-weight: normal;
 			color : blue;
         }
-        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; overflow-y: auto !important; }
+         code {height: 500px; !important;}
     </style>
-
 </head>
 <body>
 <textarea id="source">
@@ -32,9 +32,9 @@ class: center, middle
 class: center, middle, .backgroundCol
 
 # Introduction
- 
 
-This project was the overall summary of everything we studied in this class since the very first day. We had a colaboration in the group of three. The project was the perfect combo, to learn how to manage the source code using github and python commands. We also learnned to append, edit the csv files and create a plot diagrams based on the given datas. Furthermore, it gave us a sense of testing the code, debugging and an environment to work on a team basis. 
+
+This project was the overall summary of everything we studied in this class since the very first day. We had a colaboration in the group of three. The project was the perfect combo, to learn how to manage the source code using github and python commands. We also learnned to append, edit the csv files and create a plot diagrams based on the given datas. Furthermore, it gave us a sense of testing the code, debugging and an environment to work on a team basis.
 
 
 ---
@@ -68,7 +68,7 @@ def plotChartFunction(x_dates,setData,title):
               ]
 
     count = 0
-	
+
  # DataSet have key as each provence name and it's data list as value
     for key,value in setData.items():
         ax.plot(x_dates, value, color=colors[count])
@@ -104,13 +104,13 @@ for key,value in setData.items():
 ```
 ###  Question No 1
  Remove old CSV with name covid19 if exits
- 
+
 ```javascript
  try:
     os.remove("covid19.csv")
 except:
     print("File not exist")
-	
+
 ```
 
 ---
@@ -169,7 +169,7 @@ for d in date:
     splitedDate = d.split('-')
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
-	
+
 ```
 ---
 Result of question one
