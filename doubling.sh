@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# bash doubling.sh  Canada 'number of cases' 01-04-2020
 
 numTotalindex=0;
 dateindex=0;

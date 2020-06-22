@@ -46,13 +46,12 @@ def plotChartFunction(x_dates,setData,title):
     plt.show()
 
 
-
+# Question No 1
 # Remove old CSV with name covid19 if exits
 try:
     os.remove("covid19.csv")
 except:
     print("File not exist")
-
 
 
 # Download new covid19 csv from HIC website
@@ -61,7 +60,6 @@ url_content = req.content
 csv_file = open('covid19.csv', 'wb')
 csv_file.write(url_content)
 csv_file.close()
-
 
 # open the file
 with open('covid19.csv', 'r') as infile:
@@ -100,6 +98,7 @@ for d in date:
 
 
 
+# Question No 2
 # Total No of cases in each provence over time
 # iterate through each provence
 for prov in provences:
@@ -125,6 +124,7 @@ plotChartFunction(x_dates,eachProviceCases,'Total No of cases in each provence o
 
 
 
+# Question No 3
 #Total No of cases tested each provence over time
 eachProviceTestedCases = {}
 
@@ -154,10 +154,10 @@ plotChartFunction(x_dates,eachProviceTestedCases,'Total No of cases tested each 
 
 
 
-
+# Question No 4
 # No of new cases per day each provence over time
 newCasesPerDay = {}
-
+dates = set()
 # iterate through each provence
 for prov in provences:
 
@@ -167,21 +167,48 @@ for prov in provences:
         # add province name as key and empty list as value
         newCasesPerDay[prov] = []
 
-        # append list of zeros equal to no of dates against province
-        for d in date:
-            newCasesPerDay[prov].append(0)
-
         for index,d in enumerate(date): # iterate on sorted date list
-            for idx,da in enumerate(data["date"]):  # match it within date column of data
-                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
-                    if data['numtested'][idx] != '':
-                        newCasesPerDay[prov][index] = int(data['numtoday'][idx]) # add data against province for given date
-                    else:
-                        newCasesPerDay[prov][index] = 0
+
+            proceed = False
+            # check if all provinces have zero data for a specific date
+            for idx2,checkDate in enumerate(data["date"]):
+                if checkDate == d and int(data['numtoday'][idx2]) > 50:
+                    proceed = True
                     break
 
-plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
+            if proceed:
+                dates.add(d)
+                ignore = False
+                for idx,da in enumerate(data["date"]):  # match it within date column of data
+                    if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                        if data['numtoday'][idx] != '':
+                            newCasesPerDay[prov].append(int(data['numtoday'][idx])) # add data against province for given date
+                        else:
+                            newCasesPerDay[prov].append(0)
+                        ignore=True
+                        break
+                if not ignore:
+                    newCasesPerDay[prov].append(0)
+
+date = list(dates)
+date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
+x_dates = []
+for d in date:
+    splitedDate = d.split('-')
+    temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
+    x_dates.append(temp)
+
+
 # plot graph Total No of new cases per day each provence over time
+plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
+
+
+
+
+# Question No 5
+# calculates the doubling rate given arguments: province, variable
+# containing number of cases or number of deaths, and a given
+# date
 
 try:
     os.remove("output.txt")
