@@ -95,6 +95,7 @@ for d in date:
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
 
+![alt text](Q1_plot.png)
 
 # Question No 2
 # Total No of cases in each provence over time

@@ -12,8 +12,10 @@
         h1, h2, h3 {
             font-family: 'Yanone Kaffeesatz';
             font-weight: normal;
+			color : blue;
         }
-        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+        .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; overflow-y: auto !important; }
+         code {height: 500px; !important;}
     </style>
 </head>
 <body>
@@ -21,34 +23,351 @@
 
 class: center, middle
 
-# Title
+# CMSC-6950(Computer based tools & Application)
+
+ Presented By:Muhammad Iftikhar, Adnan Shafiq, Prasun Thapa
 
 ---
 
-# Agenda
+class: center, middle, .backgroundCol
 
-1. Introduction
-2. Deep-dive
-3. ...
+# Introduction
+
+
+This project was the overall summary of everything we studied in this class since the very first day. We had a colaboration in the group of three. The project was the perfect combo, to learn how to manage the source code using github and python commands. We also learnned to append, edit the csv files and create a plot diagrams based on the given datas. Furthermore, it gave us a sense of testing the code, debugging and an environment to work on a team basis.
+
 
 ---
 
-Muhammad Iftikhar
+### Function responsible for plotting the data over days
+
 ```javascript
-function add(a, b)
-  return a + b
-end
+def plotChartFunction(x_dates,setData,title):
+
+    # plot chart on SetData
+    x_dates = date2num(x_dates)
+    ax = plt.subplot(111)
+    legends = []
+
+    # Colors Array
+    colors = ['orange',
+              'green',
+              'red',
+              'blue',
+              'purple',
+              'yellow',
+              'grey',
+              'magenta',
+              'black',
+              'cyan',
+              'brown',
+              'indigo',
+              'olive',
+              'navy',
+              'orchid'
+              ]
+
+    count = 0
+
+ # DataSet have key as each provence name and it's data list as value
+    for key,value in setData.items():
+        ax.plot(x_dates, value, color=colors[count])
+        a=mpatches.Patch(color=colors[count],linestyle='--',label=key)
+        legends.append(a)
+        count = count + 1
+    ax.xaxis_date()
+    plt.xticks(rotation=70)
+    plt.legend(handles=legends)
+    plt.title(title,size=10,color='Green')
+    plt.show()
+
+
 ```
 
 ---
 
-# Introduction
+### DataSet have key as each provence name and it's data list as value
 
+```javascript
+
+for key,value in setData.items():
+        ax.plot(x_dates, value, color=colors[count])
+        a=mpatches.Patch(color=colors[count],linestyle='--',label=key)
+        legends.append(a)
+        count = count + 1
+    ax.xaxis_date()
+    plt.xticks(rotation=70)
+    plt.legend(handles=legends)
+    plt.title(title,size=10,color='Green')
+    plt.show()
+
+```
+###  Question No 1
+ Remove old CSV with name covid19 if exits
+
+```javascript
+ try:
+    os.remove("covid19.csv")
+except:
+    print("File not exist")
+
+```
+
+---
+Download new covid19 csv from HIC website
+
+```javascript
+req = requests.get("https://health-infobase.canada.ca/src/data/covidLive/covid19.csv")
+url_content = req.content
+csv_file = open('covid19.csv', 'wb')
+csv_file.write(url_content)
+csv_file.close()
+
+```
+
+Open the file and read
+
+```javascript
+with open('covid19.csv', 'r') as infile:
+    # read the file as a dictionary for each row ({header : value})
+    reader = csv.DictReader(infile)
+    data = {}
+    for row in reader:
+        for header, value in row.items():
+            try:
+                data[header].append(value)
+            except KeyError:
+                data[header] = [value]
+
+```
+
+Extract the variables you want unique
+
+```javascript
+provences = list(set(data['prname']))
+totalCases = data['numtotal']
+```
+---
+Select only unique dates sorted
+
+```javascript
+date = list(set(data['date']))
+date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
+```
+
+Extracting dates and converting it to date time object
+```javascript
+
+x_dates = []
+eachProviceCases = {}
+
+```
+Append Unique dates in x_dates
+
+```javascript
+for d in date:
+    splitedDate = d.split('-')
+    temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
+    x_dates.append(temp)
+
+```
+---
+Result of question one
+![alt text](Q1_plot.png)
+
+---
+### Question No 2
+
+Total No of cases in each provence over time iterate through each provence
+
+```javascript
+
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+        # add province name as key and empty list as value
+        eachProviceCases[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            eachProviceCases[prov].append(0)
+
+        for index,d in enumerate(date): # iterate on sorted date list
+            for idx,da in enumerate(data["date"]): # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    eachProviceCases[prov][index] = int(data['numtotal'][idx]) # add data against province for given date
+                    break
+
+```
+
+Plot graph Total No of cases in each provence over time
+
+
+```javascript
+plotChartFunction(x_dates,eachProviceCases,'Total No of cases in each provence over time')
+```
+
+---
+
+### Question No 3
+
+Total No of cases tested each provence over time
+```javascript
+eachProviceTestedCases = {}
+```
+
+iterate through each provence
+
+```javascript
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+
+        # add province name as key and empty list as value
+        eachProviceTestedCases[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            eachProviceTestedCases[prov].append(0)
+
+        for index,d in enumerate(date):  # iterate on sorted date list
+            for idx,da in enumerate(data["date"]):  # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    if data['numtested'][idx] != '':
+                        eachProviceTestedCases[prov][index] = int(data['numtested'][idx])  # add data against province for given date
+                    else:
+                        eachProviceTestedCases[prov][index] = 0
+                    break
+
+```
+---
+ Plot graph Total No of cases tested each provence over time
+
+```javascript
+plotChartFunction(x_dates,eachProviceTestedCases,'Total No of cases tested each provence over time')
+
+```
+
+### Question No 4
+No of new cases per day each provence over time
+
+```javascript
+
+newCasesPerDay = {}
+dates = set()
+
+```
+---
+iterate through each provence
+```javascript
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+
+        # add province name as key and empty list as value
+        newCasesPerDay[prov] = []
+
+        for index,d in enumerate(date): # iterate on sorted date list
+
+            proceed = False
+            # check if all provinces have zero data for a specific date
+            for idx2,checkDate in enumerate(data["date"]):
+                if checkDate == d and int(data['numtoday'][idx2]) > 50:
+                    proceed = True
+                    break
+
+            if proceed:
+                dates.add(d)
+                ignore = False
+                for idx,da in enumerate(data["date"]):  # match it within date column of data
+                    if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                        if data['numtoday'][idx] != '':
+                            newCasesPerDay[prov].append(int(data['numtoday'][idx])) # add data against province for given date
+                        else:
+                            newCasesPerDay[prov].append(0)
+                        ignore=True
+                        break
+                if not ignore:
+                    newCasesPerDay[prov].append(0)
+date = list(dates)
+date = sorted(date, key=lambda x: datetime.datetime.strptime(x, '%d-%m-%Y'))
+x_dates = []
+
+```
+---
+```javascript
+for d in date:
+    splitedDate = d.split('-')
+    temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
+    x_dates.append(temp)
+```
+plot graph Total No of new cases per day each provence over time
+```javascript
+plotChartFunction(x_dates,newCasesPerDay,'No of new cases per day each provence over time')
+
+```
+
+### Question No 5
+
+Calculates the doubling rate given arguments: province, variable containing number of cases or number of deaths, and a given date.
+```javascript
+try:
+    os.remove("output.txt")
+except:
+    print("File not exist")
+
+os.system("bash doubling.sh  Canada 'number of cases' 01-04-2020")
+os.system("bash doubling.sh  Alberta 'number of cases' 01-04-2020")
+os.system("bash doubling.sh  Ontario 'number of cases' 01-04-2020")
+
+f = open("output.txt", "r")
+prvinceName = []
+NoOfDays=[]
+legends=[]
+---
+
+colors = ['r','g','b']
+index=0
+for x in f:
+    temp = x.split(" ")
+    a=mpatches.Patch(color=colors[index],linestyle='--',label=temp[0]+'('+temp[2]+') --> '+'('+temp[4]+')')
+    legends.append(a)
+    prvinceName.append(temp[0]+'('+temp[1]+')')
+    NoOfDays.append(int(temp[5].replace('\n', '')))
+    index=index+1
+print(prvinceName)
+print(NoOfDays)
+ ```
+---
+
+ ```javascript
+ barlist=plt.bar(prvinceName,NoOfDays)
+barlist[0].set_color('r')
+barlist[1].set_color('g')
+barlist[2].set_color('b')
+
+plt.legend(handles=legends)
+plt.title('Doubling Rate From Given Date')
+plt.xlabel('Provinces From Date')
+plt.ylabel('No Of Days')
+
+plt.show()
+```
+---
     </textarea>
+
 <script src="https://remarkjs.com/downloads/remark-latest.min.js">
 </script>
 <script>
     var slideshow = remark.create();
+</script>
+
+<script>
+<script>
+    install remark-images
 </script>
 </body>
 </html>
