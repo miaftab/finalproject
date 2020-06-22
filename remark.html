@@ -12,10 +12,10 @@
         h1, h2, h3 {
             font-family: 'Yanone Kaffeesatz';
             font-weight: normal;
-			color : blue;
+            color : blue;
         }
         .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; overflow-y: auto !important; }
-         code {height: 500px; !important;}
+        code {height: 500px; !important;}
     </style>
 </head>
 <body>
@@ -154,13 +154,13 @@ for prov in provences:
         for d in date:
             eachProviceCases[prov].append(0)
 
-        for index,d in enumerate(date): 
+        for index,d in enumerate(date):
 		# iterate on sorted date list
             for idx,da in enumerate(data["date"]):
 			# match it within date column of data
                 if da == d and prov == data['prname'][idx]:
 				# if date match and province name is equal
-                    eachProviceCases[prov][index] = int(data['numtotal'][idx]) 
+                    eachProviceCases[prov][index] = int(data['numtotal'][idx])
 					# add data against province for given date
                     break
 
@@ -175,17 +175,17 @@ Data {key,value} = {
 
 'Quebec': [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 3, 4, 7, 13, 17, 17, 24, 39,
  50, 74, 121, 139, 221, 221, 628, 1013, 1339, 1629, 2021, 2498, 2840, 3430, 4162,
- 4611, 5518, 6101, 6997, 7944, 8580, 9340, 10031, 10912, 11677, 12292, 12846, 
+ 4611, 5518, 6101, 6997, 7944, 8580, 9340, 10031, 10912, 11677, 12292, 12846,
  13557, 14248, 14860, 15857, 16798, 17521, 18357, 19319, 20126, 20965, 21838,
  22616, 23267, 24107, 24982, 25757, 26594, 27538, 28648, 29656, 31865, 32623,
  33417, 34327, 35238, 36150, 36986, 37721, 38469, 39225, 39931, 40724, 41420,
  42183, 42920, 43627, 44197, 44775, 45495, 46141, 46838, 47411, 47984, 48598,
  49139, 49702, 50232, 50651, 51059, 51354, 51593, 51884, 52143, 52398, 52624,
  52849, 53047, 53185, 53341, 53485, 53666, 53824, 53952, 54054, 54146, 54263,
- 54383, 54550, 54674, 54766], 
+ 54383, 54550, 54674, 54766],
 
 'Saskatchewan': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2,
- 6, 7, 8, 20, 26, 44, 52, 66, 72, 86, 95, 104, 134, 134, 175, 184, 193, 206, 220, 
+ 6, 7, 8, 20, 26, 44, 52, 66, 72, 86, 95, 104, 134, 134, 175, 184, 193, 206, 220,
  231, 249, 253, 260, 271, 278, 285, 289, 298, 300, 301, 304, 305, 307, 313, 315,
  316, 320, 326, 331, 341, 349, 353, 365, 366, 383, 389, 415, 421, 433, 467, 487,
  512, 531, 544, 553, 564, 568, 573, 577, 582, 590, 591, 592, 592, 599, 620, 622,
@@ -223,14 +223,14 @@ for prov in provences:
         for d in date:
             eachProviceTestedCases[prov].append(0)
 
-        for index,d in enumerate(date):  
+        for index,d in enumerate(date):
 		# iterate on sorted date list
-            for idx,da in enumerate(data["date"]): 
+            for idx,da in enumerate(data["date"]):
 			# match it within date column of data
-                if da == d and prov == data['prname'][idx]: 
+                if da == d and prov == data['prname'][idx]:
 				# if date match and province name is equal
                     if data['numtested'][idx] != '':
-                        eachProviceTestedCases[prov][index] = int(data['numtested'][idx])  
+                        eachProviceTestedCases[prov][index] = int(data['numtested'][idx])
 						# add data against province for given date
                     else:
                         eachProviceTestedCases[prov][index] = 0
@@ -278,7 +278,7 @@ for prov in provences:
             if proceed:
                 dates.add(d)
                 ignore = False
-                for idx,da in enumerate(data["date"]):  
+                for idx,da in enumerate(data["date"]):
 				# match it within date column of data
                     if da == d and prov == data['prname'][idx]:
 					# if date match and province name is equal
@@ -520,11 +520,11 @@ for prov in provences:
         for d in date:
             eachProviceCases[prov].append(0)
 
-        for index,d in enumerate(date): 
+        for index,d in enumerate(date):
 		# iterate on sorted date list
             for idx,da in enumerate(data["date"]):
 			# match it within date column of data
-                if da == d and prov == data['prname'][idx]: 
+                if da == d and prov == data['prname'][idx]:
 				# if date match and province name is equal
                     eachProviceCases[prov][index] = int(data['numtotal'][idx])
 					# add data against province for given date
@@ -565,18 +565,8 @@ for prov in provences:
         print(x_dates)
         print(eachProviceCasesUpdated)
         plotChartFunction(x_dates,eachProviceCasesUpdated,'No of cases in '+prov+' forecast data')
-		
-```
----
-class: center, middle
-![alt text](images/ontario.png)
----
-class: center, middle
-![alt text](images/new burnswick.png)
----
-class: center, middle
-![alt text](images/newfoundland.png)
 
+```
 ---
 
 ```javascript
@@ -584,10 +574,10 @@ class: center, middle
 
 Ontario
 
-LAST 7 DAYS STATS  
+LAST 7 DAYS STATS
 [32370, 32554, 32744, 32917, 33095, 33301, 33476]
 
-NEW STATS CREATED FORCAST 
+NEW STATS CREATED FORCAST
 33844.66666666667
 34029.11111111112
 34211.629629629635
@@ -605,18 +595,28 @@ NEW STATS CREATED FORCAST
 
 FINAL OUTOUT TO PLOT
 {'Ontario': [33844.66666666667, 34029.11111111112, 34211.629629629635,
- 34398.567901234564, 
+ 34398.567901234564,
 34586.16255144033, 34766.02297668038, 34951.86013946045,
  35136.392384926075, 35320.93926389524,
-35505.824202939504, 35690.36691989032, 
+35505.824202939504, 35690.36691989032,
 35874.40098129866,
 
 ```
 ---
+class: center, middle
+![alt text](images/ontario.png)
+---
+class: center, middle
+![alt text](images/new burnswick.png)
+---
+class: center, middle
+![alt text](images/newfoundland.png)
+
+---
 class: center, middle, .backgroundCol
 #Thank You
 ---
-    </textarea>
+</textarea>
 
 <script src="https://remarkjs.com/downloads/remark-latest.min.js">
 </script>
