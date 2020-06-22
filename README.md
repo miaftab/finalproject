@@ -31,6 +31,6 @@ Shell Script to compute doubling rate
       2. Read CSV covid19.csv
       3. Create plot Number Of Total Cases for each province over time. 
       output: 
-  ![alt text](https://drive.google.com/file/d/1bGf62H69-5dq-CK-G6KNzQtiGhPdDFY9/view) 
+  ![alt text](https://i.ibb.co/KKBX89P/Snip20200621-1-1.png) 
   
         
