@@ -95,7 +95,6 @@ for d in date:
     temp = datetime.date(int(splitedDate[2]),int(splitedDate[1]),int(splitedDate[0]))
     x_dates.append(temp)
 
-![alt text](Q1_plot.png)
 
 # Question No 2
 # Total No of cases in each provence over time
@@ -245,3 +244,63 @@ plt.xlabel('Provinces From Date')
 plt.ylabel('No Of Days')
 
 plt.show()
+
+
+
+#Free Choice
+
+eachProviceCases={}
+for prov in provences:
+
+    # Exclude Canada
+    if prov != 'Canada':
+        # add province name as key and empty list as value
+        eachProviceCases[prov] = []
+
+        # append list of zeros equal to no of dates against province
+        for d in date:
+            eachProviceCases[prov].append(0)
+
+        for index,d in enumerate(date): # iterate on sorted date list
+            for idx,da in enumerate(data["date"]): # match it within date column of data
+                if da == d and prov == data['prname'][idx]: # if date match and province name is equal
+                    eachProviceCases[prov][index] = int(data['numtotal'][idx]) # add data against province for given date
+                    break
+
+x_dates=[]
+
+for i in range((0),14):
+    d=datetime.datetime.now() + datetime.timedelta(days=i)
+    x_dates.append(d.date())
+
+for prov in provences:
+    # Exclude Canada
+    if prov != 'Canada':
+        eachProviceCasesUpdated={}
+        Stats = eachProviceCases[prov]
+        last7Values=[]
+        nextTwoWeekData=[]
+
+        for i in range((0), len(Stats)):
+            if i >= (len(Stats) - 7):
+                last7Values.append(Stats[i])
+        print(prov)
+        print(last7Values)
+
+        #generate next 2 week data
+        for i in range((0),14):
+            count=0
+            sum=0
+            for j in range((i+1),len(last7Values)):
+               sum = sum + (last7Values[j] - last7Values[j-1])
+               count=count+1
+            last7Values.append(last7Values[len(last7Values)-1] + (sum/count))
+            nextTwoWeekData.append(last7Values[len(last7Values)-1] + (sum/count))
+            print(last7Values[len(last7Values)-1] + (sum/count))
+
+        eachProviceCasesUpdated[prov] = nextTwoWeekData
+        print(x_dates)
+        print(eachProviceCasesUpdated)
+        plotChartFunction(x_dates,eachProviceCasesUpdated,'No of cases in '+prov+' forecast data')
+
+
